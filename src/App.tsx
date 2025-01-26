@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import Button from '@mui/material/Button';
 import './App.css'
+import { UserProvider } from './userContext'
 
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
   const handleSubmit = (event) => {
-
+    event.preventDefault();
+    // Add login logic here
+    console.log('Login submitted:', username, password);
   };
 
   return (
@@ -24,26 +28,24 @@ function LoginForm() {
         <div>
           <label htmlFor="password">Password:</label>
           <input
-          type="text"
+          type="password"
           id="password"
           value={password}
           onChange={(e)=> setPassword(e.target.value)}/>
-          </div>
-          <button type="submit">Log In</button>
+        </div>
+        <button type="submit">Log In</button>
       </form>
     </div>
   );
 }
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
+    <UserProvider>
       <div>
         <LoginForm />
       </div>
-    </>
+    </UserProvider>
   );
 }
 
