@@ -1,52 +1,26 @@
-import { useState } from 'react'
 import Button from '@mui/material/Button';
 import './App.css'
-import { UserProvider } from './userContext'
+import React, { useContext } from 'react';
+import SearchPage from './searchPage'
+import LoginForm from './loginPage'
+import { UserProvider, UserContext } from './userContext'
 
-function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Add login logic here
-    console.log('Login submitted:', username, password);
-  };
+function App() {
+  const { user } = useContext(UserContext);
 
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}/>
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e)=> setPassword(e.target.value)}/>
-        </div>
-        <button type="submit">Log In</button>
-      </form>
+      {user ? <SearchPage /> : <LoginForm />}
     </div>
   );
 }
 
-function App() {
+function AppWrapper() {
   return (
     <UserProvider>
-      <div>
-        <LoginForm />
-      </div>
+      <App />
     </UserProvider>
   );
 }
 
-export default App
+export default AppWrapper;
