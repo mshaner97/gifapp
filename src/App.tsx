@@ -4,23 +4,28 @@ import React, { useContext } from 'react';
 import SearchPage from './searchPage'
 import LoginForm from './loginPage'
 import { UserProvider, UserContext } from './userContext'
+import {QueryClient, QueryClientProvider, useQuery,} from "@tanstack/react-query";
 
-function App() {
-  const { user } = useContext(UserContext);
+  const queryClient= new QueryClient();
 
-  return (
-    <div>
-      {user ? <SearchPage /> : <LoginForm />}
-    </div>
-  );
-}
-
-function AppWrapper() {
-  return (
-    <UserProvider>
-      <App />
-    </UserProvider>
-  );
-}
-
-export default AppWrapper;
+  function App() {
+    const { user } = useContext(UserContext);
+  
+    return (
+      <div>
+        {user ? <SearchPage /> : <LoginForm />}
+      </div>
+    );
+  }
+  
+  function AppWrapper() {
+    return (
+      <UserProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </UserProvider>
+    );
+  }
+  
+  export default AppWrapper;
