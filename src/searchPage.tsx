@@ -4,13 +4,11 @@ import { UserContext } from './userContext';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import './GifGallery.css';
 
-
 const API_KEY = 'd1lgw3dmuT68Vv3MCwp8wpvFOQRkFq07';
 
-function SearchPage() {
+function SearchPage({ favorites, setFavorites }) {
     const { user } = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
-    const [favorites, setFavorites] = useState([]);
 
     const fetchGifs = useCallback(async () => {
         if (!searchTerm) return [];
@@ -29,13 +27,17 @@ function SearchPage() {
         queryFn: fetchGifs,
         enabled: !!searchTerm,
         placeholderData: keepPreviousData
-      });
+    });
 
-    const addToFavorites = (gif) => {
-        if(!favorites.some(fav => fav.id === gif.id)) {
+    const toggleFavorite = (gif) => {
+        if(favorites.some(fav => fav.id === gif.id)) {
+            setFavorites(favorites.filter(fav => fav.id !== gif.id));
+        } else {
             setFavorites([...favorites, gif]);
         }
     };
+
+    const isFavorite = (gifId) => favorites.some(fav => fav.id === gifId);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -61,18 +63,11 @@ function SearchPage() {
                     {searchResults && searchResults.map((gif) => (
                         <div key={gif.id} className="gif-item">
                             <img src={gif.images.fixed_height.url} alt={gif.title} className="gif-image" />
-                            <button onClick={() => addToFavorites(gif)} className="favorite-button">Add to Favorites</button>
-                    </div>
-                ))}
-            </div>
-        </div>
-            <div>
-                <h3>Favorites</h3>
-                {favorites.map((gif) => (
-                    <div key={gif.id}>
-                        <img src={gif.images.fixed_height.url} alt={gif.title} />
-                    </div>
-                ))}
+                            <button onClick={() => toggleFavorite(gif)} className="favorite-button">
+                            {isFavorite(gif.id) ? 'Unfavorite' : 'Favorite'}</button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
