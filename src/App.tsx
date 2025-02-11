@@ -21,8 +21,8 @@ import FavoritesPage from './favoritesPage';
     return (
       <div>
         <nav>
-          <Button onClick={() => setCurrentPage('search')}>Search</Button>
-          <Button onClick={() => setCurrentPage('favorites')}>Favorites</Button>
+          <Button className="searchpage" onClick={() => setCurrentPage('search')}>Search</Button>
+          <Button className="favoritespage" onClick={() => setCurrentPage('favorites')}>Favorites</Button>
         </nav>
   
         {currentPage === 'search' ? (

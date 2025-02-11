@@ -3,6 +3,7 @@ import axios from 'axios';
 import { UserContext } from './userContext';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import './GifGallery.css';
+import './app.css';
 
 const API_KEY = 'd1lgw3dmuT68Vv3MCwp8wpvFOQRkFq07';
 
