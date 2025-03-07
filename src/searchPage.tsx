@@ -11,7 +11,7 @@ function SearchPage({ favorites, setFavorites }) {
     const { user } = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const fetchGifs = useCallback(async () => {
+   /* const fetchGifs = useCallback(async () => {
         if (!searchTerm) return [];
         const response = await axios.get(`https://api.giphy.com/v1/gifs/search`, {
             params: {
@@ -22,7 +22,13 @@ function SearchPage({ favorites, setFavorites }) {
         });
         return response.data.data;
     }, [searchTerm]);
-
+    */
+    const fetchGifs = async (searchTerm) => {
+        const response = await fetch(`/api/search?term=${searchTerm}`);
+        const data = await response.json();
+        return data;
+      };
+      
     const { data: searchResults, isLoading, isError } = useQuery({
         queryKey: ['gifs', searchTerm],
         queryFn: fetchGifs,

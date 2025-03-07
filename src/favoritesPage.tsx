@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
+/*function FavoritesPage({ favorites, setFavorites }) {*/
 function FavoritesPage({ favorites, setFavorites }) {
+    useEffect(() => {
+        fetch('/api/favorites')
+            .then(response => response.json())
+            .then(data => setFavorites(data))
+            .catch(error => console.error('Error fetching favorites:', error));
+    }, [setFavorites]);
     const toggleFavorite = (gif) => {
         if(favorites.some(fav => fav.id === gif.id)) {
             setFavorites(favorites.filter(fav => fav.id !== gif.id));
